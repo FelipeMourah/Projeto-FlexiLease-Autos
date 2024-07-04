@@ -8,11 +8,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-      "paths": {
-        "@modules/*": ["modules/*"]
-      },
+    "paths": {
+      "@modules/*": ["modules/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["node_modules"],
-
+  "exclude": ["node_modules"]
 }

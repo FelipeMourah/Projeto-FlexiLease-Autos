@@ -3,11 +3,17 @@ import dotenv from 'dotenv';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import mongoose from 'mongoose';
+import userRoutes from '@modules/users/infra/http/routes/user.routes';
+import carsRouter from '@modules/cars/infra/http/routes/cars.routes';
 const app = express();
 const PORT = process.env.PORT || 3000;
 dotenv.config();
 // Middleware to parse JSON
 app.use(express.json());
+
+//Routes
+app.use('/api/v1/cars', carsRouter);
+app.use('/api/v1/users', userRoutes);
 
 // Swagger setup
 const swaggerOptions = {
@@ -30,7 +36,9 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/cars';
+const mongoUri =
+  process.env.MONGO_URI ||
+  'mongodb+srv://FelipeMourah:<password>@projeto-flexilease-auto.kxsxdcc.mongodb.net/?retryWrites=true&w=majority&appName=Projeto-FlexiLease-Autos';
 const port = process.env.PORT || 3000;
 
 mongoose
