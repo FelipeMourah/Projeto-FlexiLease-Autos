@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '@modules/users/infra/mongoose/entities/User';
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
-import { IUser } from '../domain/models/IUser';
+import { IUser } from '@modules/users/domain/models/IUser';
 import { validateCPF } from './validators/CpfValidator';
 class CreateUserService {
   public async execute(data: ICreateUser): Promise<IUser> {

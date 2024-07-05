@@ -6,4 +6,5 @@ export interface ICar {
   year: number;
   value_per_day: string;
   accessories: Array<{ id: string; description: string }>;
+  number_of_passengers: string;
 }

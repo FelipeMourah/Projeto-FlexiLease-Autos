@@ -9,12 +9,26 @@ import { UpdateCarAccessoryService } from '@modules/cars/services/UpdateCarAcces
 
 class CarsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { model, color, year, value_per_day, accessories } = request.body;
+    const {
+      model,
+      color,
+      year,
+      value_per_day,
+      accessories,
+      number_of_passengers,
+    } = request.body;
 
     const carsRepository = new CarsRepository();
     const createCarService = new CreateCarService(carsRepository);
 
-    const newCarData = { model, color, year, value_per_day, accessories };
+    const newCarData = {
+      model,
+      color,
+      year,
+      value_per_day,
+      accessories,
+      number_of_passengers,
+    };
 
     try {
       const createdCar = await createCarService.execute(newCarData);
@@ -50,12 +64,26 @@ class CarsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { model, color, year, value_per_day, accessories } = request.body;
+    const {
+      model,
+      color,
+      year,
+      value_per_day,
+      accessories,
+      number_of_passengers,
+    } = request.body;
 
     const carsRepository = new CarsRepository();
     const updateCarService = new UpdateCarService(carsRepository);
 
-    const updateCarData = { model, color, year, value_per_day, accessories };
+    const updateCarData = {
+      model,
+      color,
+      year,
+      value_per_day,
+      accessories,
+      number_of_passengers,
+    };
 
     try {
       const updatedCar = await updateCarService.execute(id, updateCarData);

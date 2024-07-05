@@ -11,6 +11,7 @@ const CarSchema = new Schema(
     year: { type: Number, required: true, min: 1950, max: 2023 },
     value_per_day: { type: String, required: true },
     accessories: [AccessorySchema],
+    number_of_passengers: { type: String, required: true },
   },
   {
     timestamps: true,

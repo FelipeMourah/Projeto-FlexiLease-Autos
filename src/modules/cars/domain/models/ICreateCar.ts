@@ -4,4 +4,5 @@ export interface ICreateCar {
   year: number;
   value_per_day: string;
   accessories: Array<{ description: string }>;
+  number_of_passengers: string;
 }
