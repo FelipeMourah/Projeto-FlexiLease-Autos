@@ -6,13 +6,14 @@
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-      "paths": {
-        "@modules/*": ["modules/*"]
-      },
+    "paths": {
+      "@modules/*": ["modules/*"],
+      "@shared/*": ["shared/*"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["node_modules"],
-
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

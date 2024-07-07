@@ -14,4 +14,4 @@ carsRouter.put(
   carsController.updateAccessory,
 );
 
-export { carsRouter };
+export default carsRouter;
