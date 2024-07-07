@@ -3,39 +3,45 @@ import { IReserve } from '@modules/reserves/domain/models/IReserve';
 import { IUpdateReserve } from '@modules/reserves/domain/models/IUpdateReserve';
 import { Car } from '@modules/cars/infra/mongoose/entities/Cars';
 import { User } from '@modules/users/infra/mongoose/entities/User';
+import AppError from '@shared/errors/AppError';
 
 class UpdateReserveService {
   constructor(private reserveRepository: IReserveRepository) {}
 
   async execute(id: string, data: IUpdateReserve): Promise<IReserve> {
-    if (data.id_user) {
-      // Verifica se o usuário existe
-      const user = await User.findById(data.id_user);
-      if (!user) {
-        throw new Error('User not found');
+    try {
+      // Se houver mudança de usuário, verificar se o novo usuário existe
+      if (data.id_user) {
+        const user = await User.findById(data.id_user);
+        if (!user) {
+          throw new AppError(404, 'Not Found', 'User not found');
+        }
       }
 
-      // Verifica se o usuário possui uma carteira de motorista
-      if (!user.qualified) {
-        throw new Error('User does not have a driver license');
+      // Se houver mudança de carro, verificar se o novo carro existe
+      if (data.id_car) {
+        const car = await Car.findById(data.id_car);
+        if (!car) {
+          throw new AppError(404, 'Not Found', 'Car not found');
+        }
       }
-    }
 
-    if (data.id_car) {
-      // Verifica se o carro existe
-      const car = await Car.findById(data.id_car);
-      if (!car) {
-        throw new Error('Car not found');
+      // Atualizar a reserva
+      const updatedReserve = await this.reserveRepository.update(id, data);
+
+      if (!updatedReserve) {
+        throw new AppError(404, 'Not Found', 'Reserve not found');
       }
+
+      return updatedReserve;
+    } catch (error) {
+      console.error('Error in UpdateReserveService:', error);
+      throw new AppError(
+        500,
+        'Internal Server Error',
+        'Failed to update reserve',
+      );
     }
-
-    const updatedReserve = await this.reserveRepository.update(id, data);
-
-    if (!updatedReserve) {
-      throw new Error('Reserve not found');
-    }
-
-    return updatedReserve;
   }
 }
 

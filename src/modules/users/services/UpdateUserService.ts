@@ -1,10 +1,8 @@
-// services/UpdateUserService.ts
 import axios from 'axios';
 import { User } from '@modules/users/infra/mongoose/entities/User';
 import { IUpdateUser } from '@modules/users/domain/models/IUpdateUser';
 import { IUser } from '../domain/models/IUser';
 import { validateCPF } from './validators/CpfValidator';
-import { ObjectId } from 'mongoose';
 
 class UpdateUserService {
   public async execute(id: string, data: IUpdateUser): Promise<IUser | null> {
@@ -25,7 +23,7 @@ class UpdateUserService {
 
     // Verificar se o CPF ou email já existem
     const userExists = await User.findOne({ $or: [{ cpf }, { email }] });
-    if (userExists && (userExists._id as ObjectId).toString() !== id) {
+    if (userExists && userExists._id.toString() !== id) {
       throw new Error('CPF or email already exists');
     }
 

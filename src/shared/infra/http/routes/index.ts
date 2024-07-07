@@ -1,11 +1,14 @@
-import express from 'express';
-import { reservesRouter } from '@modules/reserves/infra/http/routes/reserves.routes';
-import userRouter from '@modules/users/infra/http/routes/user.routes';
-import carsRouter from '@modules/cars/infra/http/routes/cars.routes';
+import { Router } from 'express';
+import UserRoutes from 'modules/users/infra/http/routes/User.routes';
+import reservesRouter from 'modules/reserves/infra/http/routes/reserves.routes';
+import carsRouter from 'modules/cars/infra/http/routes/cars.routes';
+import errorHandler from '@shared/infra/http/middlewares/ErrorHandler';
 
-const app = express();
+const Routes = Router();
 
-app.use(express.json());
-app.use('/api/v1/reserve', reservesRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/cars', carsRouter);
+Routes.use('/users', UserRoutes);
+Routes.use('/reserves', reservesRouter);
+Routes.use('/cars', carsRouter);
+
+Routes.use(errorHandler);
+export default Routes;

@@ -1,9 +1,20 @@
-import { User } from '@modules/users/infra/mongoose/entities/User';
+import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
+import { IUser } from '@modules/users/domain/models/IUser';
+import { User } from '../entities/User';
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IUpdateUser } from '@modules/users/domain/models/IUpdateUser';
-import { IUser } from '@modules/users/domain/models/IUser';
 
-class usersRepository {
+class UserRepository implements IUserRepository {
+  public async findByEmail(email: string): Promise<IUser | null> {
+    const user = await User.findOne({ email });
+    return user ? (user.toObject() as IUser) : null;
+  }
+
+  public async findByCpf(cpf: string): Promise<IUser | null> {
+    const user = await User.findOne({ cpf });
+    return user ? (user.toObject() as IUser) : null;
+  }
+
   public async create(data: ICreateUser): Promise<IUser> {
     const user = new User(data);
     await user.save();
@@ -20,14 +31,7 @@ class usersRepository {
     return users.map((user) => user.toObject() as IUser);
   }
 
-  public async update(
-    id: string,
-    _name: string | undefined,
-    _password: string | undefined,
-    _cep: string | undefined,
-    _qualified: string | undefined,
-    data: IUpdateUser,
-  ): Promise<IUser | null> {
+  public async update(id: string, data: IUpdateUser): Promise<IUser | null> {
     const user = await User.findByIdAndUpdate(id, data, { new: true });
     return user ? (user.toObject() as IUser) : null;
   }
@@ -37,4 +41,4 @@ class usersRepository {
   }
 }
 
-export { usersRepository };
+export { UserRepository };

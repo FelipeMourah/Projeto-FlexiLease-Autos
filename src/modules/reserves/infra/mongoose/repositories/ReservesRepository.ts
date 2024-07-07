@@ -1,15 +1,27 @@
-import { Model } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import { IReserveRepository } from '@modules/reserves/domain/repositories/IReserveRepository';
 import { IReserve } from '@modules/reserves/domain/models/IReserve';
 import { ICreateReserve } from '@modules/reserves/domain/models/ICreateReserve';
 import { IUpdateReserve } from '@modules/reserves/domain/models/IUpdateReserve';
-import { Reserve } from '@modules/reserves/infra/mongoose/entities/Reserves';
+import { User } from '@modules/users/infra/mongoose/entities/User';
+import { Car } from '@modules/cars/infra/mongoose/entities/Cars';
 
-class ReserveRepository implements IReserveRepository {
+const ReserveSchema: Schema = new Schema({
+  id_user: { type: Schema.Types.ObjectId, ref: User, required: true }, // 'User' deve ser a string do modelo de usuário no Mongoose
+  id_car: { type: Schema.Types.ObjectId, ref: Car, required: true }, // 'Car' deve ser a string do modelo de carro no Mongoose
+  start_date: { type: Date, required: true },
+  end_date: { type: Date, required: true },
+  value_per_day: { type: Number, required: true },
+  final_value: { type: Number, required: true },
+});
+
+const ReserveModel: Model<IReserve> = model<IReserve>('Reserve', ReserveSchema);
+
+class ReservesRepository implements IReserveRepository {
   private reserveModel: Model<IReserve>;
 
   constructor() {
-    this.reserveModel = Reserve;
+    this.reserveModel = ReserveModel;
   }
 
   public async save(reserveData: IReserve): Promise<IReserve> {
@@ -48,4 +60,4 @@ class ReserveRepository implements IReserveRepository {
   }
 }
 
-export { ReserveRepository };
+export { ReservesRepository };

@@ -1,5 +1,5 @@
 import { ICar } from '@modules/cars/domain/models/ICar';
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 const AccessorySchema = new Schema({
   description: { type: String, required: true },
 });
@@ -18,6 +18,6 @@ const CarSchema = new Schema(
   },
 );
 
-const Car = model<ICar>('Car', CarSchema);
+const Car = model<ICar & Document>('Car', CarSchema);
 
 export { Car };

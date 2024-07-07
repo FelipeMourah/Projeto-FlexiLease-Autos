@@ -1,4 +1,4 @@
-import { ReserveRepository } from '../../mongoose/repositories/ReservesRepository';
+import { ReservesRepository } from '../../mongoose/repositories/ReservesRepository';
 import { Request, Response } from 'express';
 import { CreateReserveService } from '@modules/reserves/services/CreateReserveService';
 import { UpdateReserveService } from '@modules/reserves/services/UpdateReserveService';
@@ -6,12 +6,13 @@ import { DeleteReserveService } from '@modules/reserves/services/DeleteReserveSe
 import { ShowReserveService } from '@modules/reserves/services/ShowReserveService';
 import { ListReservesService } from '@modules/reserves/services/ListReserveService';
 
-export class ReservationsController {
-  private reservationRepository: ReserveRepository;
+export class ReservesController {
+  private reservationRepository: ReservesRepository;
 
   constructor() {
-    this.reservationRepository = new ReserveRepository();
+    this.reservationRepository = new ReservesRepository();
   }
+
   public async create(req: Request, res: Response): Promise<Response> {
     const {
       id_user,
@@ -21,12 +22,13 @@ export class ReservationsController {
       value_per_day,
       final_value,
     } = req.body;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const createReserveService = new CreateReserveService(
       this.reservationRepository,
     );
+
     try {
-      const reserve = await CreateReserveService.execute({
+      const reserve = await createReserveService.execute({
         id_user,
         id_car,
         start_date,
@@ -34,7 +36,7 @@ export class ReservationsController {
         value_per_day,
         final_value,
       });
-      return res.status(201).json({ id: reserve });
+      return res.status(201).json({ id: reserve.id });
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unexpected error';
