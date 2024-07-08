@@ -1,40 +1,48 @@
+import 'reflect-metadata';
+import '@shared/container/index';
 import express from 'express';
-//import dotenv from 'dotenv';
-import swaggerJsDoc from 'swagger-jsdoc';
+import dotenv from 'dotenv';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-const app = express();
-const PORT = process.env.PORT || 3000;
+import * as fs from 'fs';
+import * as path from 'path';
+import { connectToDatabase } from 'config/database';
+import mongoose from 'mongoose';
+import { Express } from 'express-serve-static-core';
 
-// Middleware to parse JSON
+const app = express();
+dotenv.config();
+
+const corsOptions = {
+  origin: 'localhost:8000/Api/v1',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
+// Middleware
 app.use(express.json());
 
 // Swagger setup
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'API Documentation',
-      version: '1.0.0',
-      description: 'API Information',
-      contact: {
-        name: 'Developer',
-      },
-      servers: [`http://localhost:${PORT}`],
-    },
-  },
-  apis: ['./src/modules/cars/infra/http/routes/*.ts'],
-};
+setupSwagger(app);
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const startServer = connectToDatabase;
+mongoose.connect(
+  'mongodb+srv://FelipeMourah:9SVG82eyQwOK4jqg@projeto-flexilease-auto.kxsxdcc.mongodb.net/?retryWrites=true&w=majority&appName=Projeto-FlexiLease-Autos',
+);
 
-// MongoDB connection
-/*dotenv.config();
+startServer();
 
-const MONGO_URI = process.env.MONGO_URI;
+function setupSwagger(app: Express) {
+  const swaggerDocument = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../swagger.json'), 'utf8'),
+  );
+  app.use('/apiDocs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
-if (!MONGO_URI) {
-  throw new Error('MONGO_URI não está definido no arquivo .env');
-}*/
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
