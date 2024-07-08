@@ -69,7 +69,7 @@ PORT = 3000
 ```
 ## Swagger
  ```
-api/v1/apiDocs
+/apiDocs
 
 ```
 ```url
