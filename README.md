@@ -12,14 +12,14 @@ O projeto consiste no desenvolvimento de uma FULL API REST para uma locadora de 
 |   Mongoose                          | ✅        |
 | Versionamento no GitHub             | ✅        |
 | Conventional Commits, Small commits | ✅        |
-| Testes unitários, e2e (Jest, Vitest)| ⏳   |
+| Testes unitários, e2e (Jest, Vitest)| ✅        |
 
 ## Requisitos Não Obrigatórios
 
 | Requisito                            | Utilizada |
 | ------------------------------------ | --------- |
 
-| Deploy da Api                        | ⏳        |
+| Deploy da Api                        | ✅        |
 
 
 ## Instalação
@@ -72,4 +72,12 @@ PORT = 3000
 /apiDocs
 
 ```
+## Deploy
+***
+### flexilease
+***
+```
+https://flexilease.netlify.app
+```
+Deploys from GitHub.
 
