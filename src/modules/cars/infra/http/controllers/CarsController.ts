@@ -44,8 +44,14 @@ class CarsController {
     const carsRepository = new CarsRepository();
     const listCarsService = new ListCarsService(carsRepository);
 
-    const cars = await listCarsService.execute();
-    return response.status(200).json(cars);
+    try {
+      const cars = await listCarsService.execute();
+      return response.status(200).json(cars);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred';
+      return response.status(500).json({ error: errorMessage });
+    }
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
@@ -54,12 +60,18 @@ class CarsController {
     const carsRepository = new CarsRepository();
     const showCarService = new ShowCarService(carsRepository);
 
-    const car = await showCarService.execute(id);
-    if (!car) {
-      return response.status(404).json({ error: 'Car not found' });
-    }
+    try {
+      const car = await showCarService.execute(id);
+      if (!car) {
+        return response.status(404).json({ error: 'Car not found' });
+      }
 
-    return response.status(200).json(car);
+      return response.status(200).json(car);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unexpected error occurred';
+      return response.status(500).json({ error: errorMessage });
+    }
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

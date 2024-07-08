@@ -61,6 +61,7 @@ class CreateUserService {
         uf: uf || 'N/A',
       },
       _id: '',
+      id: '',
     });
 
     return user;
