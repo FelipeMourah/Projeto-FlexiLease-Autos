@@ -1,10 +1,20 @@
-import { User } from '../infra/mongoose/entities/User';
+import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
+import { UserRepository } from '@modules/users/infra/mongoose/repositories/UserRepository';
 
-export class DeleteUserService {
-  public async delete(id: string): Promise<void> {
-    const user = await User.findByIdAndDelete(id);
+class DeleteUserService {
+  private userRepository: IUserRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
+
+  public async delete(cpf: string): Promise<void> {
+    const user = await this.userRepository.findById(cpf);
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new Error('User not found');
     }
+    await this.userRepository.delete(cpf);
   }
 }
+
+export { DeleteUserService };

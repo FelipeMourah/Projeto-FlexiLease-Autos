@@ -1,10 +1,10 @@
 import { ICar } from '@modules/cars/domain/models/ICar';
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 const AccessorySchema = new Schema({
   description: { type: String, required: true },
 });
 
-const CarSchema = new Schema(
+const CarSchema = new mongoose.Schema(
   {
     model: { type: String, required: true },
     color: { type: String, required: true },

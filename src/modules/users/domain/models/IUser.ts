@@ -11,6 +11,7 @@ export interface IUser {
     neighborhood: string;
     city: string;
     state: string;
+    uf: string;
   };
   qualified: 'sim' | 'não';
 }

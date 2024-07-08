@@ -1,12 +1,15 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "description": "API documentation for Car Rental Service",
-    "version": "1.0.0",
-    "title": "Car Rental API"
+    "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locadora de carros, utilizando as tecnologias e conhecimentos aprendidos nos cursos.",
+    "version": 1.03,
+    "title": "Projeto FlexiLease Autos"
   },
-  "host": "localhost:3000",
-  "basePath": "/api/v1",
+  "servers": [
+    {
+      "url": "https:localhost:3000/api/v1"
+    }
+  ],
   "tags": [
     {
       "name": "cars",
@@ -29,10 +32,14 @@
         "responses": {
           "200": {
             "description": "Lista de carros",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Car"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
               }
             }
           }
@@ -41,16 +48,16 @@
       "post": {
         "tags": ["cars"],
         "summary": "Adiciona um novo carro",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Car"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Car"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Carro criado"
@@ -70,14 +77,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Carro encontrado",
-            "schema": {
-              "$ref": "#/definitions/Car"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
             }
           },
           "404": {
@@ -93,17 +106,21 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Car"
+              "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Car"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Carro atualizado"
@@ -124,7 +141,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -146,17 +165,21 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/Accessory"
+              "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Accessory"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Acessório adicionado"
@@ -177,10 +200,14 @@
         "responses": {
           "200": {
             "description": "Lista de usuários",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
               }
             }
           }
@@ -189,16 +216,16 @@
       "post": {
         "tags": ["users"],
         "summary": "Adiciona um novo usuário",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Usuário criado"
@@ -218,14 +245,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Usuário encontrado",
-            "schema": {
-              "$ref": "#/definitions/User"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
             }
           },
           "404": {
@@ -241,17 +274,21 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
+              "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Usuário atualizado"
@@ -272,7 +309,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -289,16 +328,16 @@
       "post": {
         "tags": ["users"],
         "summary": "Autentica um usuário",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AuthenticateUser"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateUser"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Usuário autenticado"
@@ -311,10 +350,142 @@
           }
         }
       }
+    },
+    "/reserves": {
+      "get": {
+        "tags": ["reserves"],
+        "summary": "Lista todas as reservas",
+        "responses": {
+          "200": {
+            "description": "Lista de reservas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reserve"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["reserves"],
+        "summary": "Adiciona uma nova reserva",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reserve"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reserva criada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/reserves/{id}": {
+      "get": {
+        "tags": ["reserves"],
+        "summary": "Exibe uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserve"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": ["reserves"],
+        "summary": "Atualiza uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reserve"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reserva atualizada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["reserves"],
+        "summary": "Deleta uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Reserva deletada"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      }
     }
   },
-  "definitions": {
-    "Car": {
+  "components": {
+    "schemas": {
+      "Car": {
       "type": "object",
       "required": ["id", "model", "color", "year", "value_per_day", "accessories", "number_of_passengers"],
       "properties": {
@@ -324,15 +495,15 @@
         },
         "model": {
           "type": "string",
-          "example": "Modelo Exemplo"
+          "example": "Toyota Sw4"
         },
         "color": {
           "type": "string",
-          "example": "Vermelho"
+          "example": "Prata"
         },
         "year": {
           "type": "integer",
-          "example": 2022
+          "example": 2024
         },
         "value_per_day": {
           "type": "string",
@@ -349,14 +520,14 @@
               },
               "description": {
                 "type": "string",
-                "example": "Descrição do acessório"
+                "example": "Escapamento Esportivo"
               }
             }
           }
         },
         "number_of_passengers": {
           "type": "string",
-          "example": "5"
+          "example": "7"
         }
       }
     },
@@ -370,28 +541,28 @@
         },
         "name": {
           "type": "string",
-          "example": "Nome Exemplo"
+          "example": "Felipe Santos "
         },
         "birth": {
           "type": "string",
           "format": "date",
-          "example": "2000-01-01"
+          "example": "07-03-2005"
         },
         "cpf": {
           "type": "string",
-          "example": "123.456.789-00"
+          "example": "987.123.456-89"
         },
         "email": {
           "type": "string",
-          "example": "email@exemplo.com"
+          "example": "felipesantos@test.com"
         },
         "password": {
           "type": "string",
-          "example": "senha123"
+          "example": "TesteComplete"
         },
         "cep": {
           "type": "string",
-          "example": "12345-678"
+          "example": "66820-600"
         },
         "address": {
           "type": "object",
@@ -399,19 +570,19 @@
           "properties": {
             "street": {
               "type": "string",
-              "example": "Rua Exemplo"
+              "example": "Rua Vale Azul"
             },
             "neighborhood": {
               "type": "string",
-              "example": "Bairro Exemplo"
+              "example": "Tenone"
             },
             "city": {
               "type": "string",
-              "example": "Cidade Exemplo"
+              "example": "Belém"
             },
             "state": {
               "type": "string",
-              "example": "Estado Exemplo"
+              "example": "Pará"
             }
           }
         },
@@ -428,11 +599,11 @@
       "properties": {
         "email": {
           "type": "string",
-          "example": "email@exemplo.com"
+          "example": "felipesantos@test.com"
         },
         "password": {
           "type": "string",
-          "example": "senha123"
+          "example": "TesteComplete"
         }
       }
     },
@@ -446,11 +617,48 @@
         },
         "name": {
           "type": "string",
-          "example": "Acessório Exemplo"
+          "example": "Escapamento Esportivo"
         },
         "description": {
           "type": "string",
-          "example": "Descrição do acessório"
+          "example": "Escapamento Esportivo"
+        }
+      }
+    },
+    "Reserve": {
+      "type": "object",
+      "required": ["id", "id_user", "id_car", "start_date", "end_date", "value_per_day", "final_value"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "id_user": {
+          "type": "string",
+          "example": "1"
+        },
+        "id_car": {
+          "type": "string",
+          "example": "1"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "example": "10-02-2024"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "example": "20-02-2024"
+        },
+        "value_per_day": {
+          "type": "number",
+          "example": 100.00
+        },
+        "final_value": {
+          "type": "number",
+          "example": 1000.00
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 import express from 'express';
 import { connectToDatabase } from './config/database';
-import routes from './shared/infra/http/routes'; // ajuste o caminho conforme necessário
+import routes from './shared/infra/http/routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
