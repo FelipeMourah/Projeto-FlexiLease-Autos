@@ -1,0 +1,666 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "O projeto consiste no desenvolvimento de uma FULL API REST para uma locadora de carros, utilizando as tecnologias e conhecimentos aprendidos nos cursos.",
+    "version": 1.03,
+    "title": "Projeto FlexiLease Autos"
+  },
+  "servers": [
+    {
+      "url": "https:localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "cars",
+      "description": "Operations about cars"
+    },
+    {
+      "name": "users",
+      "description": "Operations about users"
+    },
+    {
+      "name": "reserves",
+      "description": "Operations about reserves"
+    }
+  ],
+  "paths": {
+    "/cars": {
+      "get": {
+        "tags": ["cars"],
+        "summary": "Lista todos os carros",
+        "responses": {
+          "200": {
+            "description": "Lista de carros",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Car"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["cars"],
+        "summary": "Adiciona um novo carro",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Car"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Carro criado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "get": {
+        "tags": ["cars"],
+        "summary": "Exibe um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carro encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": ["cars"],
+        "summary": "Atualiza um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Car"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Carro atualizado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["cars"],
+        "summary": "Deleta um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Carro deletado"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      }
+    },
+    "/cars/{id}/accessories": {
+      "post": {
+        "tags": ["cars"],
+        "summary": "Adiciona um acessório ao carro",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Accessory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Acessório adicionado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Carro não encontrado"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Lista todos os usuários",
+        "responses": {
+          "200": {
+            "description": "Lista de usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Adiciona um novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Exibe um usuário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Atualiza um usuário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Deleta um usuário pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Usuário deletado"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/users/authenticate": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Autentica um usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário autenticado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          }
+        }
+      }
+    },
+    "/reserves": {
+      "get": {
+        "tags": ["reserves"],
+        "summary": "Lista todas as reservas",
+        "responses": {
+          "200": {
+            "description": "Lista de reservas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reserve"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["reserves"],
+        "summary": "Adiciona uma nova reserva",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reserve"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Reserva criada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/reserves/{id}": {
+      "get": {
+        "tags": ["reserves"],
+        "summary": "Exibe uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reserve"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": ["reserves"],
+        "summary": "Atualiza uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reserve"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reserva atualizada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["reserves"],
+        "summary": "Deleta uma reserva pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Reserva deletada"
+          },
+          "404": {
+            "description": "Reserva não encontrada"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Car": {
+      "type": "object",
+      "required": ["id", "model", "color", "year", "value_per_day", "accessories", "number_of_passengers"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "model": {
+          "type": "string",
+          "example": "Toyota Sw4"
+        },
+        "color": {
+          "type": "string",
+          "example": "Prata"
+        },
+        "year": {
+          "type": "integer",
+          "example": 2024
+        },
+        "value_per_day": {
+          "type": "string",
+          "example": "100.00"
+        },
+        "accessories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "1"
+              },
+              "description": {
+                "type": "string",
+                "example": "Escapamento Esportivo"
+              }
+            }
+          }
+        },
+        "number_of_passengers": {
+          "type": "string",
+          "example": "7"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": ["_id", "name", "birth", "cpf", "email", "password", "cep", "address", "qualified"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "1"
+        },
+        "name": {
+          "type": "string",
+          "example": "Felipe Santos "
+        },
+        "birth": {
+          "type": "string",
+          "format": "date",
+          "example": "07-03-2005"
+        },
+        "cpf": {
+          "type": "string",
+          "example": "987.123.456-89"
+        },
+        "email": {
+          "type": "string",
+          "example": "felipesantos@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "TesteComplete"
+        },
+        "cep": {
+          "type": "string",
+          "example": "66820-600"
+        },
+        "address": {
+          "type": "object",
+          "required": ["street", "neighborhood", "city", "state"],
+          "properties": {
+            "street": {
+              "type": "string",
+              "example": "Rua Vale Azul"
+            },
+            "neighborhood": {
+              "type": "string",
+              "example": "Tenone"
+            },
+            "city": {
+              "type": "string",
+              "example": "Belém"
+            },
+            "state": {
+              "type": "string",
+              "example": "Pará"
+            }
+          }
+        },
+        "qualified": {
+          "type": "string",
+          "enum": ["sim", "não"],
+          "example": "sim"
+        }
+      }
+    },
+    "AuthenticateUser": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "felipesantos@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "TesteComplete"
+        }
+      }
+    },
+    "Accessory": {
+      "type": "object",
+      "required": ["name", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "name": {
+          "type": "string",
+          "example": "Escapamento Esportivo"
+        },
+        "description": {
+          "type": "string",
+          "example": "Escapamento Esportivo"
+        }
+      }
+    },
+    "Reserve": {
+      "type": "object",
+      "required": ["id", "id_user", "id_car", "start_date", "end_date", "value_per_day", "final_value"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "id_user": {
+          "type": "string",
+          "example": "1"
+        },
+        "id_car": {
+          "type": "string",
+          "example": "1"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "example": "10-02-2024"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "example": "20-02-2024"
+        },
+        "value_per_day": {
+          "type": "number",
+          "example": 100.00
+        },
+        "final_value": {
+          "type": "number",
+          "example": 1000.00
+          }
+        }
+      }
+    }
+  }
+}

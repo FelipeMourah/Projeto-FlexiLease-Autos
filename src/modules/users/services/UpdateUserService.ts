@@ -1,10 +1,17 @@
 import axios from 'axios';
-import { User } from '@modules/users/infra/mongoose/entities/User';
+import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { IUpdateUser } from '@modules/users/domain/models/IUpdateUser';
-import { IUser } from '../domain/models/IUser';
+import { IUser } from '@modules/users/domain/models/IUser';
 import { validateCPF } from './validators/CpfValidator';
+import { UserRepository } from '@modules/users/infra/mongoose/repositories/UserRepository';
 
 class UpdateUserService {
+  private userRepository: IUserRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
+
   public async execute(id: string, data: IUpdateUser): Promise<IUser | null> {
     const { name, cpf, email, password, birth, cep, qualified } = data;
 
@@ -21,45 +28,40 @@ class UpdateUserService {
       throw new Error('Invalid CPF');
     }
 
-    // Verificar se o CPF ou email já existem
-    const userExists = await User.findOne({ $or: [{ cpf }, { email }] });
-    if (userExists && userExists._id.toString() !== id) {
-      throw new Error('CPF or email already exists');
-    }
-
     // Buscar endereço na API Via CEP
     const viaCepResponse = await axios.get(
       `https://viacep.com.br/ws/${cep}/json`,
     );
-    const { street, complement, neighborhood, locality, uf } =
-      viaCepResponse.data;
+    const {
+      logradouro: street,
+      bairro: neighborhood,
+      localidade: locality,
+      cidade: city,
+      uf,
+    } = viaCepResponse.data;
 
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        name,
-        cpf,
-        birth,
-        email,
-        password,
-        cep,
-        qualified,
-        address: {
-          street: street || 'N/A',
-          complement: complement || 'N/A',
-          neighborhood: neighborhood || 'N/A',
-          locality: locality || 'N/A',
-          uf: uf || 'N/A',
-        },
+    const updatedUser = await this.userRepository.update(id, {
+      name,
+      cpf,
+      birth,
+      email,
+      password,
+      cep,
+      qualified,
+      address: {
+        street: street || 'N/A',
+        neighborhood: neighborhood || 'N/A',
+        city: city,
+        state: locality,
+        uf: uf || 'N/A',
       },
-      { new: true },
-    );
+    });
 
     if (!updatedUser) {
       throw new Error('User not found');
     }
 
-    return updatedUser.toObject() as IUser;
+    return updatedUser;
   }
 }
 

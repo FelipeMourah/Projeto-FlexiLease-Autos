@@ -1,9 +1,17 @@
 import axios from 'axios';
-import { User } from '@modules/users/infra/mongoose/entities/User';
+import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { validateCPF } from './validators/CpfValidator';
+import { UserRepository } from '@modules/users/infra/mongoose/repositories/UserRepository';
+
 class CreateUserService {
+  private userRepository: IUserRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
+
   public async execute(data: ICreateUser): Promise<IUser> {
     const { name, cpf, email, password, birth, cep, qualified } = data;
 
@@ -18,7 +26,9 @@ class CreateUserService {
     }
 
     // Verificar se o CPF ou email já existem
-    const userExists = await User.findOne({ $or: [{ cpf }, { email }] });
+    const userExists =
+      (await this.userRepository.findByEmail(email)) ||
+      (await this.userRepository.findByCpf(cpf));
     if (userExists) {
       throw new Error('CPF or email already exists');
     }
@@ -27,10 +37,15 @@ class CreateUserService {
     const viaCepResponse = await axios.get(
       `https://viacep.com.br/ws/${cep}/json`,
     );
-    const { street, complement, neighborhood, locality, uf } =
-      viaCepResponse.data;
+    const {
+      logradouro: street,
+      bairro: neighborhood,
+      localidade: locality,
+      cidade: city,
+      uf,
+    } = viaCepResponse.data;
 
-    const user = new User({
+    const user = await this.userRepository.create({
       name,
       cpf,
       birth,
@@ -40,16 +55,15 @@ class CreateUserService {
       qualified,
       address: {
         street: street || 'N/A',
-        complement: complement || 'N/A',
         neighborhood: neighborhood || 'N/A',
-        locality: locality || 'N/A',
+        city: city,
+        state: locality,
         uf: uf || 'N/A',
       },
+      _id: '',
     });
 
-    await user.save();
-
-    return user.toObject() as IUser;
+    return user;
   }
 }
 

@@ -9,6 +9,6 @@ UserRoutes.post('/auth', usersController.login);
 UserRoutes.get('/', usersController.list);
 UserRoutes.get('/:id', usersController.show);
 UserRoutes.put('/:id', usersController.update);
-UserRoutes.delete('/:id', usersController.delete);
+UserRoutes.delete('/:cpf', usersController.delete);
 
 export default UserRoutes;
