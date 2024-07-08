@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { UserRepository } from '@modules/users/infra/mongoose/repositories/UserRepository';
 
 class DeleteUserService {
+  execute(_id: string) {
+    throw new Error('Method not implemented.');
+  }
   private userRepository: IUserRepository;
 
   constructor() {
