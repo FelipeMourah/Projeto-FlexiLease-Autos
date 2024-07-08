@@ -9,7 +9,7 @@ function errorHandler(
   next: NextFunction,
 ) {
   if (err instanceof AppError) {
-    return res.status(err.code).json({
+    return res.status(err.statusCode).json({
       code: err.code,
       status: err.status,
       message: err.message,

@@ -24,7 +24,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "start": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register\" src/app.ts",
-    "dev": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register\" src/app.ts",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
     "prettier:check": "prettier --check .",
