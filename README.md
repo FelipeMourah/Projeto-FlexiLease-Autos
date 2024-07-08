@@ -72,8 +72,4 @@ PORT = 3000
 /apiDocs
 
 ```
-```url
-https://app.swaggerhub.com/apis-docs/FelipeMoura/projeto-flexi_lease_autos_documentaion/1.0.0-oas3#/
-```
-=======
 
